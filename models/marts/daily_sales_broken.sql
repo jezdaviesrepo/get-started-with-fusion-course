@@ -11,7 +11,7 @@ order_items AS (
             order_date
         ) AS order_date,
         product_price,
-        is_food_item,
+        is_food_item AS is_food_item_flag,
         is_drink_item,
         supply_cost
     FROM
