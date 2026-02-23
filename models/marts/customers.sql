@@ -34,14 +34,14 @@ customer_orders_summary as (
 joined as (
 
     select
-        customers.*,
-
-        customer_orders_summary.count_lifetime_orders,
+        customers.customer_id,
+        customers.customer_name,
+        
         customer_orders_summary.first_order_date,
         customer_orders_summary.last_order_date,
         customer_orders_summary.lifetime_spend_pretax,
         customer_orders_summary.lifetime_tax_paid,
-        customer_orders_summary.lifetime_spend,
+        customer_orders_summary.lifetime_spend as lifetime_spend,
 
         case
             when customer_orders_summary.is_repeat_buyer then 'returning'
