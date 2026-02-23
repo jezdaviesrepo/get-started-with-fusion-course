@@ -1,34 +1,30 @@
-with
-
-source as (
-
-    -- {# This references seed (CSV) data - try switching to {{ source('ecom', 'raw_orders') }} #}
-    select * from {{ ref('raw_orders') }}
-
+WITH source AS (
+    SELECT
+        *
+    FROM
+        {{ ref('raw_orders') }}
 ),
-
-renamed as (
-
-    select
-
-        ----------  ids
-        id as order_id,
-        store_id as location_id,
-        customer as customer_id,
-
+renamed AS (
+    SELECT
+        ---------- ids
+        id AS order_id,
+        store_id AS location_id,
+        customer AS customer_id,
         ---------- numerics
-        subtotal as subtotal_cents,
-        tax_paid as tax_paid_cents,
-        order_total as order_total_cents,
-        {{ cents_to_dollars('subtotal') }} as subtotal,
-        {{ cents_to_dollars('tax_paid') }} as tax_paid,
-        {{ cents_to_dollars('order_total') }} as order_total,
-
+        subtotal AS subtotal_cents,
+        tax_paid AS tax_paid_cents,
+        order_total AS order_total_cents,
+        {{ cents_to_dollars('subtotal') }} AS subtotal,
+        tax_paid,
+        {{ cents_to_dollars('order_total') }} AS order_total,
         ---------- timestamps
-        cast(ordered_at as date) as order_date
-
-    from source
-
+        CAST(
+            ordered_at AS DATE
+        ) AS order_date
+    FROM
+        source
 )
-
-select * from renamed
+SELECT
+    *
+FROM
+    renamed
